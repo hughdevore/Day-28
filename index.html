@@ -1,0 +1,47 @@
+<!doctype html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Image Feed</title>
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+        <link href='http://fonts.googleapis.com/css?family=Josefin+Sans: 400,500,600,700' rel='stylesheet' type='text/css'>      <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+    </head>
+    <body ng-app="app">
+        <div ng-controller="HttpCtrl">
+
+            <div id="add-form">
+                <button class="icon ion-image" id="add" ng-show="addButton" ng-click="onAddButton()"></button>
+                <form id="form" ng-hide="openForm" name="form" ng-submit="sendData(imageURL, caption)" novalidate>
+                    <input class="input" type="url" name="url" required pattern="https?://.+" placeholder="Image URL" ng-model="imageURL">
+                    <input class="input" type="text" name="caption" required pattern=".+" placeholder="Image Caption" ng-model="caption" >
+                    <button id="cancel" class="button" ng-hide="openForm" ng-click="onCancelButton()">Cancel</button>
+                    <button id="send" class="button">Send</button>
+                </form>
+            </div>
+
+            <div id="image-feed">
+                <figure ng-repeat="(image, info) in content">
+                    <img class="img" ng-src="{{ info.imageURL }}">
+                    <div id="caption-box">
+                        <figcaption class="caption">{{ info.caption }}
+                    </div>
+                </figure>
+
+                <div ng-hide="error">
+                    {{ error }}
+                </div>
+            </div>
+
+        </div>
+
+        <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="bower_components/angular/angular.min.js">
+        </script>
+
+        <script type="text/javascript" src="scripts/app.js"></script>
+        <script type="text/javascript" src="scripts/controllers.js"></script>
+    </body>
+</html>
