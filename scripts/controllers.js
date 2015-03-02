@@ -1,5 +1,5 @@
 angular.module('app.controllers',[])
-.controller('HttpCtrl', function($scope, $http) {
+.controller('HttpCtrl', function($scope, $http, $interval) {
 	// Initializing the scope properties
 	$scope.imageURL = '';
 	$scope.caption = '';
@@ -19,17 +19,25 @@ angular.module('app.controllers',[])
 	}
 
 	// Making a get request to the server
-	var promise = $http.get('https://tiny-pizza-server.herokuapp.com/collections/HughImageFeed')
-	.success(function(response) {
+	$scope.render = function() {
+		var promise = $http.get('https://tiny-pizza-server.herokuapp.com/collections/HughImageFeed')
+		.success(function(response) {
 		// Successfully received a response from the server
-
 		$scope.content = response;
-	})
-	.error(function(err) {
+		})
+		.error(function(err) {
 		// Got an error back from the server
 		$scope.displayError = false;
 		$scope.error = err;
-	})
+		})
+	}
+
+
+	$scope.render();
+
+	$interval(function (){
+		$scope.render();
+	}, 1000);
 
 	$scope.sendData = function(imageURL, caption) {
 		// Sending my message data to the server
